@@ -8,7 +8,7 @@ void setup() {
 
   background(30);
 
-  for(int i = 0; i < 30 ; i++){
+  for(int i = 0; i < 500 ; i++){
       painter pai = new painter(300,300);
   lista.add(pai);
   }
@@ -18,9 +18,12 @@ void draw() {
   for(painter pai : lista){
     pai.draw();
   pai.move();
-  }
+  //pai.fill = ChangeColor(pai.fill);
+  }  
+}
 
-  
+void mouseClicked(){
+save("Images/worms"+frameCount+".png");
 }
 
 
@@ -29,7 +32,7 @@ class painter{
   float y;
   float dy;
   float dx;
-  float size = 60;
+  float size = 10;
   float dsize = 0;
   color stroke = color(0);
   color fill = color(255,165,0);
@@ -65,7 +68,7 @@ this.dsize += random(-0.05,0.05);
 }
 
 void toCenter(){
-  if( abs(this.x - width/2) > width/2 || abs(this.y - height/2) > height/2) {
+  if( abs(this.x - width/2)+100 > width/2 || abs(this.y - height/2)+100 > height/2) {
   this.dx -= (this.x - width/2)/1000;
   this.dy -= (this.y - height/2)/1000;
   }
@@ -76,4 +79,19 @@ void toCenter(){
     this.dy/=2;
   }
 }
+}
+
+
+color ChangeColor(color col){
+ float r = red(col)/255;
+ float g = green(col)/255;
+ float b = blue(col)/255;
+ 
+ r = (r + noise(frameCount/1000+1020))/2;
+  g = (g + noise(frameCount/1000))/2;
+   b = (b + noise(frameCount/1000 + 32456))/2;
+   
+   
+   return color(r*255,g*255,b*255);
+
 }
