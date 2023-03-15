@@ -1,6 +1,11 @@
 ArrayList<painter> lista = new ArrayList<painter>();
+
+
+float col1 = 1231230;
+float col2 = 203;
+float col3 = 3230;
 void setup() {
-  size(1000, 1000);
+  size(1500, 800);
 
   background(30);
 
@@ -11,6 +16,7 @@ void setup() {
 }
 
 void draw() {
+  noStroke();
   for(painter pai : lista){
     pai.draw();
   pai.move();
@@ -18,14 +24,20 @@ void draw() {
   }  
   
   for(int i = 0; i < lista.size(); i++){
-    
+    painter el = lista.get(i);
+    if (el.size <= 5){
+      lista.remove(i);
+    }
   }
 }
 
 void mouseClicked(){
 //save("Images/worms"+frameCount+".png");
-for (int i = 0; i < 10; i++){
-  painter pai = new painter(mouseX, mouseY);
+for (int i = 0; i < 40; i++){
+  painter pai = new painter(mouseX, mouseY, color(noise(col1)*255, noise(col2)*255, noise(col3)*255));
+  col1 += 0.01;
+  col2 -= 0.01;
+  col3 += 0.01;
   lista.add(pai);
 }
 }
@@ -36,35 +48,39 @@ class painter{
   float y;
   float dy;
   float dx;
-  float size = 30;
-  float dsize = 0;
+  float size = 3;
+  float dsize = 5;
   color stroke = color(0);
   color fill = color(255,165,0);
 
 painter(
   float x,
-  float y)
+  float y,
+  color fill)
   {
     this.x = x;
     this.y = y;
     this.dx = random(-1,1);
     this.dy = random(-1,1);
+    this.fill = fill;
 }
 
 void draw(){
 
+  if(this.size > 0){
 stroke(this.stroke);
 fill(this.fill);
 ellipse(this.x, this.y, this.size, this.size);
+  }
 }
 
 void move(){
 this.x += this.dx;
 this.y += this.dy;
-this.dx += 3*random(-0.1,0.1);
-this.dy += 3*random(-0.1,0.1);
+this.dx += 20*random(-0.1,0.1);
+this.dy += 20*random(-0.1,0.1);
 this.size += this.dsize;
-this.dsize -= 0.5;
+this.dsize -= 0.05*random(0,1);
 
   this.toCenter();
 
@@ -79,8 +95,8 @@ void toCenter(){
   this.dsize -= (this.size -10)/1000;
   
   if (abs(this.dx)+abs(this.dy) > 10){
-    this.dx/=2;
-    this.dy/=2;
+    this.dx/=5;
+    this.dy/=5;
   }
 }
 }

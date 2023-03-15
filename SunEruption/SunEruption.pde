@@ -1,7 +1,7 @@
 ArrayList<painter> lista = new ArrayList<painter>();
 void setup() {
-  size(1000, 1000);
-
+  size(1200, 1200);
+  pixelDensity(1);
   background(30);
 
   for(int i = 0; i < 500 ; i++){
@@ -11,10 +11,15 @@ void setup() {
 }
 
 void draw() {
-  for(painter pai : lista){
+  for(int i = 0; i < lista.size(); i++){
+    painter pai = lista.get(i);
     pai.draw();
   pai.move();
   //pai.fill = ChangeColor(pai.fill);
+  if(pai.size <= 5 && frameCount >= 300){
+  lista.remove(i);
+}
+  
   }  
   
   for(int i = 0; i < lista.size(); i++){
@@ -24,7 +29,7 @@ void draw() {
 
 void mouseClicked(){
 //save("Images/worms"+frameCount+".png");
-for (int i = 0; i < 10; i++){
+for (int i = 0; i < 3; i++){
   painter pai = new painter(mouseX, mouseY);
   lista.add(pai);
 }
@@ -55,7 +60,7 @@ void draw(){
 
 stroke(this.stroke);
 fill(this.fill);
-ellipse(this.x, this.y, this.size, this.size);
+ellipse(this.x, this.y, this.size/2, this.size/2);
 }
 
 void move(){

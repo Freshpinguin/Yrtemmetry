@@ -18,7 +18,10 @@ void draw() {
   }  
   
   for(int i = 0; i < lista.size(); i++){
-    
+    painter el = lista.get(i);
+    if (el.size <= 5){
+      lista.remove(i);
+    }
   }
 }
 
@@ -36,8 +39,8 @@ class painter{
   float y;
   float dy;
   float dx;
-  float size = 30;
-  float dsize = 0;
+  float size = 5;
+  float dsize = 10;
   color stroke = color(0);
   color fill = color(255,165,0);
 
@@ -64,7 +67,7 @@ this.y += this.dy;
 this.dx += 3*random(-0.1,0.1);
 this.dy += 3*random(-0.1,0.1);
 this.size += this.dsize;
-this.dsize -= 0.5;
+this.dsize -= 0.001;
 
   this.toCenter();
 
