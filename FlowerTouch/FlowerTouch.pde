@@ -1,11 +1,18 @@
 ArrayList<painter> lista = new ArrayList<painter>();
 
+float angle = 0;
+
+float mouseXX;
+float mouseYY;
 
 float col1 = 1231230;
 float col2 = 203;
 float col3 = 3230;
+int travX = 0;
+int travY = 0;
+
 void setup() {
-  size(1500, 800);
+  size(2000, 1200);
   frameRate(60);
   background(30);
   
@@ -34,24 +41,39 @@ void draw() {
       lista.remove(i);
     }
   }
+  for(int i = 0; i < 5; i ++){
+  if(mouseXX >= 2200){
+  mouseXX = -200;
+  mouseYY += 20;
+  }
+  if(mouseYY >= 1400){
+  return;
+  }
+  
+  mouseXX += 20;
+  mouseClicked();
+  }
 }
+  
+
 
 void mouseClicked(){
 //save("Images/worms"+frameCount+".png");
-if  (mouseButton == LEFT){
-for (int i = 0; i < 50; i++){
-  float dx = 20*sin(i*PI/5);
-  float dy = 20*cos(i*PI/5);
+if  (!(pow(abs(mouseXX-width/2),2)+pow(abs(mouseYY-height/2),2)< pow(300,2) )){
+for (int i = 0; i < 3; i++){
+  angle += PI/20;
+  float dx = 2*sin(angle);
+  float dy = 2*cos(angle);
   float scale = 2-i/11;
-  painter pai = new painter(mouseX, mouseY, color(noise(col1)*255, noise(col2)*255, noise(col3)*255), dx, dy, scale/4);
-  col1 += 0.005;
-  col2 -= 0.005;
-  col3 += 0.005;
+  painter pai = new painter(mouseXX, mouseYY, color(noise(col1)*255, noise(col2)*255, noise(col3)*255), dx, dy, scale/4);
+  col1 += 0.0005;
+  col2 -= 0.0005;
+  col3 += 0.0005;
   lista.add(pai);
 }
 }
 if (mouseButton == RIGHT){
-   painter pai = new painter(mouseX, mouseY, color(noise(col1)*255, noise(col2)*255, noise(col3)*255), 0,0, 0.8);
+   painter pai = new painter(mouseXX, mouseYY, color(noise(col1)*255, noise(col2)*255, noise(col3)*255), 0,0, 0.8);
   lista.add(pai);
 }
 }
@@ -63,7 +85,7 @@ class painter{
   float dy;
   float dx;
   float size = 3;
-  float dsize = 20;
+  float dsize = 10;
   float scale;
   color stroke = color(0);
   color fill = color(255,165,0);
@@ -101,7 +123,7 @@ painter(
 
 void draw(){
 
-  if(this.size > 0){
+  if(this.size > 0 && true)  {
 stroke(this.stroke);
 fill(this.fill);
 ellipse(this.x, this.y, scale*this.size/4, scale*this.size/4);
@@ -113,11 +135,13 @@ this.x += this.dx/2;
 this.y += this.dy/2;
 this.dx += 5*random(-0.1,0.1);
 this.dy += 5*random(-0.1,0.1);
-this.size += this.dsize;
+this.size += this.dsize*3;
 this.dsize -= 0.05*random(0,1);
 
   this.toCenter();
-
+if( pow(abs(this.x-width/2),2) +pow(abs(this.y-height/2),2)< pow(300,2)){
+  this.dsize -= 10;
+}
 
 }
 
